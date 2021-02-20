@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "760538195488",
+    "project_id": "dota2-team-finder",
+    "storage_bucket": "dota2-team-finder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760538195488:android:879c744d174351a3337e45",
+        "android_client_info": {
+          "package_name": "com.nezamipour.mehdi.dota2teamfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760538195488-ofb21f1j4fdd4bs78o329gfb2fiiukj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeNNORI7ypgrF9I1DXgKPeS_hVERd4uTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760538195488-ofb21f1j4fdd4bs78o329gfb2fiiukj9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
