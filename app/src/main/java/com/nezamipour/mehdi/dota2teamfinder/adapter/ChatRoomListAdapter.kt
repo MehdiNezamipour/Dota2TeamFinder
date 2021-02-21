@@ -1,14 +1,17 @@
 package com.nezamipour.mehdi.dota2teamfinder.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nezamipour.mehdi.dota2teamfinder.databinding.ChatListItemLayoutBinding
 import com.nezamipour.mehdi.dota2teamfinder.model.ChatRoom
+import com.nezamipour.mehdi.dota2teamfinder.view.fragment.ChatListFragmentDirections
 
-class ChatRoomListAdapter(val chatRoomList: List<ChatRoom>) :
+class ChatRoomListAdapter(var chatRoomList: List<String>) :
     RecyclerView.Adapter<ChatRoomListAdapter.ChatRoomViewHolder>() {
 
 
@@ -32,10 +35,21 @@ class ChatRoomListAdapter(val chatRoomList: List<ChatRoom>) :
     // viewHolder class
     class ChatRoomViewHolder(private val binding: ChatListItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(chatRoom: ChatRoom) {
-            binding.tvChatRoomFirstLetter.text = chatRoom.name.get(0).toString()
-            binding.tvChatRoomName.text = chatRoom.name
+        fun bind(chatRoom: String) {
+            binding.tvChatRoomFirstLetter.text = chatRoom[0].toString()
+            binding.tvChatRoomName.text = chatRoom
+
+            binding.root.setOnClickListener {
+                Navigation.findNavController(it)
+                    .navigate(
+                        ChatListFragmentDirections.actionChatListFragmentToChatFragment(
+                            chatRoom
+                        )
+                    )
+            }
         }
+
+
     }
 
 

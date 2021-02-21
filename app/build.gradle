@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+
+
 }
 
 android {
@@ -50,8 +53,33 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    implementation "androidx.navigation:navigation-runtime-ktx:2.3.3"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-rc01"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+
+    // koin
+    implementation "org.koin:koin-core:2.1.5"
+    implementation "org.koin:koin-android:2.1.5"
+    implementation "org.koin:koin-androidx-viewmodel:2.1.5"
+    implementation "org.koin:koin-androidx-scope:2.1.5"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    // safe arg
+    apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 
     testImplementation 'junit:junit:4.+'

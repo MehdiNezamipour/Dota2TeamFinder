@@ -1,20 +1,20 @@
 package com.nezamipour.mehdi.dota2teamfinder.view.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.nezamipour.mehdi.dota2teamfinder.R
 import com.nezamipour.mehdi.dota2teamfinder.adapter.ChatRoomListAdapter
 import com.nezamipour.mehdi.dota2teamfinder.databinding.FragmentChatListBinding
-import com.nezamipour.mehdi.dota2teamfinder.viewmodel.ChatListViewModel
+import com.nezamipour.mehdi.dota2teamfinder.viewmodel.ChatViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatListFragment : Fragment() {
 
@@ -22,13 +22,13 @@ class ChatListFragment : Fragment() {
     private val root = FirebaseDatabase.getInstance().reference.root
     private val map = hashMapOf<String, String>()
     private lateinit var adapter: ChatRoomListAdapter
-    private lateinit var viewModel: ChatListViewModel
+    private val viewModel: ChatViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatListViewModel::class.java)
         viewModel.chatRoomList.observe(this, Observer {
-            adapter.
+            adapter.chatRoomList = it
+            adapter.notifyDataSetChanged()
         })
     }
 
@@ -43,7 +43,11 @@ class ChatListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = ChatRoomListAdapter(emptyList())
+        binding.recyclerView.adapter = adapter
 
+        Navigation.findNavController(view)
+            .navigate(ChatListFragmentDirections.actionChatListFragmentToLoginDialogFragment())
 
         binding.buttonAddChatRoom.setOnClickListener {
             map.put(binding.editTextChatRoomName.text.toString(), "")
@@ -53,13 +57,20 @@ class ChatListFragment : Fragment() {
 
         root.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-                viewModel.chatRoomList = snapshot.value
+                val set = hashSetOf<String>()
+                val list = mutableListOf<String>()
+                val iterator = snapshot.children.iterator()
+
+                while (iterator.hasNext()) {
+                    iterator.next().key?.let { set.add(it) }
+                }
+                list.addAll(set)
+                viewModel.chatRoomList.value = list
 
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })
