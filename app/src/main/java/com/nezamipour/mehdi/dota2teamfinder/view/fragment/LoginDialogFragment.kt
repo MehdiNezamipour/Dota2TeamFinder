@@ -1,6 +1,8 @@
 package com.nezamipour.mehdi.dota2teamfinder.view.fragment
 
 import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -12,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginDialogFragment : DialogFragment() {
 
-    private val viewModel: ChatViewModel by sharedViewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,15 @@ class LoginDialogFragment : DialogFragment() {
             .setPositiveButton(
                 android.R.string.ok
             ) { dialog, which ->
-                viewModel.user = User(userName = binding.editTextUserName.text.toString())
+                if (!binding.editTextUserName.text.isNullOrEmpty()) {
+                    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+                    if (sharedPref != null) {
+                        with(sharedPref.edit()) {
+                            putString("userName", binding.editTextUserName.text.toString())
+                            apply()
+                        }
+                    }
+                }
             }
             .setNegativeButton(
                 android.R.string.cancel

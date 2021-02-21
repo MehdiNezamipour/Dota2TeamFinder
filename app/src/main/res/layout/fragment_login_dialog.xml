@@ -6,6 +6,7 @@
     tools:context=".view.fragment.LoginDialogFragment">
 
     <EditText
+        android:layout_gravity="center"
         android:id="@+id/editTextUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

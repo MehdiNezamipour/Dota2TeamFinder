@@ -1,5 +1,6 @@
 package com.nezamipour.mehdi.dota2teamfinder.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatFragment : Fragment() {
 
-    private val viewModel: ChatViewModel by sharedViewModel()
     private lateinit var root: DatabaseReference
     private lateinit var binding: FragmentChatBinding
     private val args: ChatFragmentArgs by navArgs()
@@ -39,6 +39,10 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val userName = sharedPref?.getString("userName", "")
+
         binding.buttonSend.setOnClickListener {
             // add children to no sql (type = key , value) fireBase database
             val map = hashMapOf<String, Any>()
@@ -47,7 +51,7 @@ class ChatFragment : Fragment() {
 
             val messageRoot = tempKey?.let { it1 -> root.child(it1) }
             val map2 = hashMapOf<String, Any>()
-            map2["name"] = viewModel.user.userName
+            map2["name"] = userName.toString()
             map2["message"] = binding.editTextTextPersonName.text.toString()
 
             messageRoot?.updateChildren(map2)
